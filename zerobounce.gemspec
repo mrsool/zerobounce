@@ -14,18 +14,18 @@ Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
   spec.description   = 'A Ruby client for Zerobounce.net.'
   spec.homepage      = 'https://github.com/afrase/zerobounce'
   spec.license       = 'MIT'
+  spec.required_ruby_version = '>= 2.5.0'
 
-  spec.files = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
-  end
+  spec.files = Dir.glob('{lib,exe}/**/*', File::FNM_DOTMATCH).reject do |f|
+    File.directory?(f) || f.match(%r{^(test|spec|features)/})
+  end + %w[README.md LICENSE.txt CHANGELOG.md].select { |f| File.exist?(f) }
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
   spec.metadata['yard.run'] = 'yri' # use "yard" to build full HTML docs.
 
-  spec.add_dependency 'faraday', '>= 0.14', '< 2.0'
-  spec.add_dependency 'faraday_middleware', '>= 0.12', '< 2.0'
+  spec.add_dependency 'faraday', '>= 0.14', '< 3.0'
 
   spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'pry', '~> 0.13.0'
