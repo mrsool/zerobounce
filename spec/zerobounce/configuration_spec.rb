@@ -34,9 +34,9 @@ RSpec.describe Zerobounce::Configuration do
       expect(builder).to have_received(:use).with(Zerobounce::Middleware::RaiseError)
     end
 
-    it 'uses Faraday default adapter' do
+    it 'uses net_http adapter' do
       described_class.new.middleware.call(builder)
-      expect(builder).to have_received(:adapter).with(Faraday.default_adapter)
+      expect(builder).to have_received(:adapter).with(:net_http)
     end
   end
 end

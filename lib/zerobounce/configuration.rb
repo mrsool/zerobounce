@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'faraday'
-require 'faraday_middleware'
 require 'zerobounce/middleware/raise_error'
 
 module Zerobounce
@@ -48,7 +47,7 @@ module Zerobounce
         builder.response(:json, content_type: /\bjson$/, parser_options: { symbolize_names: true })
         builder.response(:logger) { |l| l.filter(/(api_?key=)(\w+)/, '\1[REMOVED]') } if ENV['ZEROBOUNCE_API_DEBUG']
         builder.use(Zerobounce::Middleware::RaiseError)
-        builder.adapter(Faraday.default_adapter)
+        builder.adapter(:net_http)
       end
     end
   end
