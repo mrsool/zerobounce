@@ -16,11 +16,9 @@ Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
   spec.license       = 'MIT'
   spec.required_ruby_version = '>= 2.5.0'
 
-  spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    `git ls-files -z 2>/dev/null`.split("\x0").reject do |f|
-      f.match(%r{^(test|spec|features)/})
-    end
-  end
+  spec.files = Dir.glob('{lib,exe}/**/*', File::FNM_DOTMATCH).reject do |f|
+    File.directory?(f) || f.match(%r{^(test|spec|features)/})
+  end + %w[README.md LICENSE.txt CHANGELOG.md].select { |f| File.exist?(f) }
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
